@@ -6,21 +6,38 @@
 
     <FlexboxLayout flexDirection="column">
 			<Label class="info">
-				Lista de compras
+				Productos por comprar
 			</Label>
-			<ListView for="item in list" class="home-panel">
-				<v-template>
-					<StackLayout orientation="horizontal" @tap="onItemTap(item)">
-						<Label :key="item.id">
-							<FormattedString>
-								<Span class="item" :text="item.name" :class="{ 'disabled': !item.active }" />
-							</FormattedString>
-						</Label>
-						<!-- <Switch :checked="item.active"/> -->
-					</StackLayout>
-				</v-template>
-			</ListView>
-			<ContentView class="home-panel-2">
+			<ScrollView orientation="horizontal">
+				<ListView height="250" for="item in list" class="pending-items">
+					<v-template>
+						<StackLayout orientation="horizontal" @tap="markAsDone(item)">
+							<Label :key="item.id">
+								<FormattedString>
+									<Span class="item" :text="item.name" :class="{ 'disabled': !item.active }" />
+								</FormattedString>
+							</Label>
+						</StackLayout>
+					</v-template>
+				</ListView>
+			</ScrollView>
+			<Label class="info">
+				Productos comprados
+			</Label>
+			<ScrollView orientation="horizontal">
+				<ListView height="250" for="item in done" class="finished-items">
+					<v-template>
+						<StackLayout orientation="horizontal" @tap="addBackToPending(item)">
+							<Label :key="item.id">
+								<FormattedString>
+									<Span class="item" :text="item.name" :class="{ 'disabled': !item.active }" />
+								</FormattedString>
+							</Label>
+						</StackLayout>
+					</v-template>
+				</ListView>
+			</ScrollView>
+			<ContentView class="add-task-button-container">
 				<Button class="add-button" text="+" horizontalAlignment="right" borderWidth="2" @tap="openAddProductModal()" />
 			</ContentView>	
     </FlexboxLayout>
@@ -31,24 +48,34 @@
 
 export default {
   computed: {
+		listIsEmpty() {
+			return this.list.length === 0
+		}
   },
 	data() {
 		return {
 			list: [
 				{ name: 'Lechuga', id: 1, active: true },
 				{ name: 'Banana', id: 2, active: true },
-				{ name: 'Papa', id: 3, active: false },
-				{ name: 'Manzana', id: 4, active: false },
+				{ name: 'Papa', id: 3, active: true },
+				{ name: 'Manzana', id: 4, active: true },
 			],
+			done: []
 		}
 	},
   methods: {
-		onItemTap(item) {
-			item.active = !item.active
+		markAsDone(item) {
+			item.active = false
+			this.done.push(item)
+			this.list = this.list.filter(product => product.id !== item.id)
 		},
 		addProduct(productName) {
 			this.list.push({ name: productName, id: this.list.length + 1, active: true })
-			console.log(this.list)
+		},
+		addBackToPending(item) {
+			item.active = true
+			this.list.push(item)
+			this.done = this.done.filter(product => product.id !== item.id)
 		},
 		openAddProductModal() {
 			prompt({
@@ -65,8 +92,21 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.home-panel {
+.label-empty-list {
+	height: 250;
+	font-size: 15;
+	border-width: 2;
+	border-color: gray;
+}
+.pending-items {
 	flex: 4;
+	border-width: 2;
+	border-color: gray;
+}
+.finished-items {
+	flex: 1;
+	border-width: 2;
+	border-color: gray;
 }
 .item {
 	font-size: 15;
@@ -79,7 +119,7 @@ export default {
 	margin-bottom: 15;
   // vertical-align: center;
 }
-.home-panel-2 {
+.add-task-button-container {
 	flex: 1;
 }
 .add-button {
@@ -94,6 +134,7 @@ export default {
 	align-self: flex-end;
 }
 .disabled {
+	color: gray;
 	text-decoration: line-through;
 }
 </style>
