@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "803595715286",
+    "project_id": "lista-de-compras-martin",
+    "storage_bucket": "lista-de-compras-martin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:803595715286:android:e00f772f6525ff0fe5bf77",
+        "android_client_info": {
+          "package_name": "com.martincomito.listadecompras"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "803595715286-17bkfngoauado1ppbpa7te3p7j3glqcf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMI4QvdMJaabE6kaT1ZijjjRb343fUwAo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "803595715286-17bkfngoauado1ppbpa7te3p7j3glqcf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
