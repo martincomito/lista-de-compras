@@ -50,6 +50,12 @@ export default {
   computed: {
 		listIsEmpty() {
 			return this.list.length === 0
+		},
+		doneIsEmpty() {
+			return this.done.length === 0
+		},
+		bothListsLength() {
+			return this.list.length + this.done.length
 		}
   },
 	data() {
@@ -70,7 +76,7 @@ export default {
 			this.list = this.list.filter(product => product.id !== item.id)
 		},
 		addProduct(productName) {
-			this.list.push({ name: productName, id: this.list.length + 1, active: true })
+			this.list.push({ name: productName, id: this.bothListsLength + 1, active: true })
 		},
 		addBackToPending(item) {
 			item.active = true
@@ -84,6 +90,7 @@ export default {
 				okButtonText: "Guardar",
 				cancelButtonText: "Cancelar"
 			}).then(result => {
+				console.log(result)
 				this.addProduct(result.text)
 			})
 		}
